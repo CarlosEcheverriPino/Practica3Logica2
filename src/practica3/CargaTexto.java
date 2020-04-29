@@ -23,7 +23,7 @@ public class CargaTexto {
     
     
     // metedo que carga el archivo y lo divide 
-  public void leer(LinkedList lista, String ruta) throws FileNotFoundException, IOException{
+/*  public void leer(LinkedList lista, String ruta) throws FileNotFoundException, IOException{
       
         String text1;
         String text2;
@@ -63,7 +63,7 @@ public class CargaTexto {
                     }
                     if(a == lista.size()){
                     ListaLigada cabeza = new ListaLigada(ini);
-                    lista.add(cabeza);
+                    lista.add(cabeza)
                     }
                 }
                 
@@ -96,6 +96,6 @@ public class CargaTexto {
         }
         
 
-        }
+        }*/
   }
     

@@ -18,9 +18,15 @@ import java.util.*;
 public class GrafoLLAdyacencia {
 
     private final LinkedList<Nodo> nodosCabeza;
+    private int a;
+    static int costos [][];
+    static String ruta;
 
-    public GrafoLLAdyacencia() {
+    public GrafoLLAdyacencia(String ruta) throws IOException {
         nodosCabeza = new LinkedList<>();
+        this.ruta = ruta; //-> Se agrega la ruta para qeu permanesca en un sttic desde el metodo
+        a = contar(ruta);//->Nos tre el numero de posiciones diferentes
+        costos = new int [a][a];//->se crea el vector de costos
     }
 
     //Metodo para insertar, aún no probado. Rezen para que funcione o se los va a llevar los negros del ataúd xD
@@ -75,7 +81,7 @@ public class GrafoLLAdyacencia {
     
     //Pase el metodo de leerArchivo para acá para poder usar el metodo insertar sin crear objetos. 
     //si se puede de otra manera sin necesidad de traerlo acá pueden hacerlo
-    public void leerArchivo(String ruta) throws FileNotFoundException, IOException {
+    public void leerArchivo() throws FileNotFoundException, IOException {
 
         String text1;
         String text2;
@@ -129,7 +135,79 @@ public class GrafoLLAdyacencia {
             }
 
         }
+        
+        
 
     }
+    
+    public int contar(String ruta)throws FileNotFoundException, IOException{
+        
+        
+        int cantidad = 0;
+        String text1;
+        String text2;
 
+        // Cargamos el buffer con el contenido del archivo
+        FileReader archivo = new FileReader(ruta);
+        
+        //pasamos el archivo buffer al bufferReader
+        BufferedReader bufferArchivo = new BufferedReader(archivo);
+        
+        //Se crea un contenedor para el maximo de posibles ubicaciones
+        //int nLineas = (int) bufferArchivo.lines().count();
+        //String contenedor [] = new String[nLineas];
+        LinkedList contenedor = new LinkedList();
+
+        // Aqui se lee la primera linea del archivo, si se quiere leer otra linea se copia
+        // y pega el mismo codigo debajo(supongo que se puede hacer con un For)
+        text1 = bufferArchivo.readLine();
+
+        //Recibe un String en este caso text1 y el delimitador o separador de palabras que es la coma "," 
+        StringTokenizer tokenizadorDePalabras = new StringTokenizer(text1, ":");
+        int cont = 0;
+        String dato = "";
+        
+        // Ciclo para extraer las palabras de la linea separadas por ","
+        while (tokenizadorDePalabras.hasMoreTokens()) {
+            
+            //lleva la palabra o token a la variable text2
+            text2 = tokenizadorDePalabras.nextToken();
+            
+            //se separan la id de la perona, el nombre de la persona y el padre
+            if(cont == 0){
+                if(!contenedor.equals(text2)){
+                    contenedor.add(text2);
+                    cantidad++;
+                }
+                    }
+            
+            if(cont == 2){
+              if(!contenedor.equals(text2)){
+                    contenedor.add(text2);
+                    cantidad++;
+                }    
+            }
+            
+            cont ++;
+            
+                //verifica si el tokenizador tiene palabras, de ser asi manda  la informacion en las variables 
+                //y añade  las personas a el arbol 
+            if (!tokenizadorDePalabras.hasMoreTokens()) {
+            text1 = bufferArchivo.readLine();
+            cont=0;
+             //separa el texto  
+                if (text1 != null) {
+                    tokenizadorDePalabras = new StringTokenizer(text1, ":");
+                    cont=0;
+                }
+            }
+        
+        }
+        
+        return cantidad;
+    }
+        
+            
 }
+
+
